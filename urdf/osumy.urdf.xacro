@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot name="osumy_robot" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <!--Includes-->
+    <xacro:include filename="$(find osumy_description)/urdf/include/_d435i.urdf.xacro" />
+    <xacro:include filename="$(find osumy_description)/urdf/include/_materials.urdf.xacro" />
+
+    <!--Properties-->
+    <xacro:property name="M_PI"     value="3.1415926535897931" />
+
+    <!-- base_footprint -->
+    <link name="base_footprint">
+        <visual>
+            <geometry>
+                <box size="0.001 0.001 0.001"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+        </visual>
+    </link>
+
+    <!-- base_link -->
+    <link name="base_link">
+        <origin xyz="0.0042133 7.6107E-05 0.20969" rpy="0 0 0"/>
+        <visual>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://osumy_description/meshes/base_link.STL"/>
+            </geometry>
+            <material name="">
+                <color rgba="0.75294 0.75294 0.75294 1"/>
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://osumy_description/meshes/base_link.STL"/>
+            </geometry>
+        </collision>
+    </link>
+
+    <joint name="base_footprint_to_base_link" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0.10" rpy="0 0 0"/>
+    </joint>
+
+    <!--Left Wheel-->
+    <joint name="base_link_left_wheel_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="left_wheel"/>
+            <origin xyz="0.065 0.16515 -0.017" rpy="1.570796327 0 0"/>
+    </joint>
+
+    <link name="left_wheel">
+        <origin xyz="0 -0.0215785030951042 0" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="-1.570796327 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/LW_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.75294 0.75294 0.75294 1"/>
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/LW_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <!-- Right Wheel -->
+    <joint name="base_link_right_wheel_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="right_wheel"/>
+            <origin xyz="0.065 -0.16515 -0.017" rpy="1.570796327 0 0"/>
+    </joint>
+
+    <link name="right_wheel">
+        <origin xyz="0 0.0215785030951041 -5.55111512312578E-17" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="-1.570796327 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/RW_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/RW_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <!-- Front Caster Wheel -->
+    <joint name="base_link_fs_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="fs_link"/>
+            <origin xyz="-0.185 0 -0.002" rpy="0 0 0"/>
+    </joint>
+
+    <link name="fs_link">
+        <origin xyz="-0.0143500705022477 0.00692729007829129 -0.0369933174670841" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BS_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BS_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <joint name="fs_front_caster_joint" type="fixed">
+            <parent link="fs_link"/>
+            <child link="front_caster"/>
+            <origin xyz="-0.0351188870758264 0.0169606536004725 -0.0700341016151377" rpy="0 0 0"/>
+    </joint>
+
+    <link name="front_caster">
+        <origin xyz="-5.55111512312578E-17 0 -2.77555756156289E-17" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BW_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BW_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <!-- Back Caster Wheel -->
+    <joint name="base_link_bs_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="bs_link"/>
+            <origin xyz="0.185 0 -0.002" rpy="0 0 0"/>
+    </joint>
+
+    <link name="bs_link">
+        <origin xyz="-0.00871161814073018 0.0133420401993786 -0.0369931849655494" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/FS_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/FS_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <joint name="bs_front_caster_joint" type="fixed">
+            <parent link="bs_link"/>
+            <child link="back_caster"/>
+            <origin xyz="-0.0213164011571543 0.0326590116462066 -0.0700341016151377" rpy="0 0 0"/>
+    </joint>
+
+    <link name="back_caster">
+        <origin xyz="1.11022302462516E-16 1.11022302462516E-16 8.32667268468867E-17" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/FW_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/FW_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <!-- Virtual Laser Link -->
+    <joint name="base_link_laser_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="laser"/>
+            <origin xyz="0 0.00018243 0.16358" rpy="0 0 0"/>
+    </joint>
+
+    <link name="laser">
+        <origin xyz="-0.0277202374142997 0.00074063985697842 -0.0658401597956572" rpy="0 0 0" />
+    </link>
+
+    <!-- Front Rplidar A1 -->
+    <joint name="base_link_front_lidar_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="front_lidar"/>
+            <origin xyz="0.26135 0.00018242 0.16358" rpy="0 0 1.570796327"/>
+    </joint>
+
+    <link name="front_lidar">
+        <origin xyz="-0.00845402605471413 0.000303456837048188 -0.00143540968894312" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 -1.570796327"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/FL_LInk.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/FL_LInk.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <!-- <joint name="rp_front_lidar_joint" type="fixed">
+            <parent link="front_lidar"/>
+            <child link="frp"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="frp">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 -3.1415926535897931"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/rp_lidar.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/rp_lidar.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+    </link> -->
+
+    <!-- Back Rplidar A1 -->
+    <joint name="base_link_back_lidar_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="back_lidar"/>
+            <origin xyz="-0.26135 0.00018243 0.16358" rpy="0 0 1.570796327"/>
+    </joint>
+
+    <link name="back_lidar">
+        <origin xyz="0.0084540260547141 -0.000668307086464481 -0.00143581657171132" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 -1.570796327"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BL_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BL_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+
+    <!-- <joint name="rp_back_lidar_joint" type="fixed">
+            <parent link="back_lidar"/>
+            <child link="brp"/>
+            <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="brp">
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 -3.1415926535897931"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/rp_lidar.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/rp_lidar.stl" scale="0.001 0.001 0.001"/>
+                </geometry>
+            </collision>
+    </link> -->
+
+    <!-- Realsense D435i  -->
+    <joint name="base_link_back_rs_camera_joint" type="fixed">
+            <parent link="base_link"/>
+            <child link="rs_camera"/>
+            <origin xyz="-0.316902261320869 0 0.10208012727996" rpy="0 0 3.1415926535897931"/>
+    </joint>
+
+    <link name="rs_camera">
+        <origin xyz="0 0 0" rpy="0 0 0" />
+        <visual>
+                <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BCAM_Link.STL"/>
+                </geometry>
+                <material name="">
+                    <color rgba="0.792156862745098 0.819607843137255 0.933333333333333 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0"/>
+                <geometry>
+                    <mesh filename="package://osumy_description/meshes/BCAM_Link.STL"/>
+                </geometry>
+            </collision>
+    </link>
+    <xacro:sensor_d435i name="camera" parent="rs_camera">
+        <origin xyz="-0.0125 0.0 -0.0125" rpy="0 0 0"/>
+    </xacro:sensor_d435i>
+</robot>
